@@ -4,7 +4,8 @@
   "description": "",
   "main": "/core/bootstrap.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd .\\core && node bootstrap.js"
   },
   "author": "",
   "license": "ISC",
