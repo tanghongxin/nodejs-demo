@@ -12,11 +12,12 @@ const extMap = (fileName) => {
 
 const fetchResource = (ctx) => {
   const fs = require('fs')
+  const { join } = require('path')
   // FIXME: protocol
   const { headers, url} = this.ctx.request
   const { pathname } = new URL(url, 'http://' + headers.host)
 
-  fs.readFile(join(`.`, `public`, pathname), (err, data) => {
+  fs.readFileSync(join(`.`, `public`, pathname), (err, data) => {
     if (err) {
       throw new Error()
     } else {
