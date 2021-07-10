@@ -1,7 +1,7 @@
-const Router = require('../router')
+import Router from '../router'
 
-function Controller (controllerRoute) {
-  return function (cls) {
+export function Controller (controllerRoute: string) {
+  return function (cls: any) {
     for (const [methodRoute, methodName] of cls.prototype.routes) {
       Router.registerRoute(
         `/${controllerRoute}/${methodRoute}`,
@@ -13,14 +13,9 @@ function Controller (controllerRoute) {
   }
 }
 
-function RequestMapping(methodRoute) {
-  return function (cls, name, descriptor) {
+export function RequestMapping (methodRoute: string) {
+  return function (cls: any, name: string, descriptor: PropertyDescriptor) {
     cls.routes = cls.routes || []
     cls.routes.push([methodRoute, name])
   }
-}
-
-module.exports = {
-  Controller,
-  RequestMapping
 }

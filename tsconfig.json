@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "target": "ESNEXT",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "removeComments": true,
+    "strict": true,
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+        "es2015"
+    ]
+  },
+  "include": ["src/**/*", "types/index.d.ts"],
+  "exclude": [
+    "node_modules",
+    "static",
+    "build",
+    "dist",
+    "docs",
+    "scripts",
+  ]
+}

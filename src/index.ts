@@ -1,8 +1,8 @@
-const http = require('http')
-const { router } = require('./bootstrap')
+import http from 'http'
+import { Router } from './bootstrap'
 
 const server = http.createServer((request, response) => {
-  router.dispatch({ request, response })
+  new Router().dispatch({ request, response })
 })
 
 server.listen(8000, () => {

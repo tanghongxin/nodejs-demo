@@ -1,4 +1,8 @@
-class Router {
+import { Ctx } from '../interface'
+
+export default class Router {
+  instance?: Router
+  
   static mimesMap = new Map([
     ['.png', 'image/png'],
     ['.jpg', 'image/jpg'],
@@ -7,9 +11,12 @@ class Router {
     ['.html', 'html'],
   ])
   
-  static requestMapping = new Map([])
+  static requestMapping = new Map<string, [any, string]>([])
   
-  static registerRoute (route, [Controller, methodName]) {
+  static registerRoute(
+    route: string,
+    [Controller, methodName]: [any, string]
+  ) {
     Router.requestMapping.set(
       route,
       [Controller, methodName]
@@ -23,17 +30,17 @@ class Router {
     return Router.prototype.instance
   }
 
-  parseRequest (request) {
-    const { pathname } = new URL(request.url, `http://${request.headers.host}`)
+  parseRequest (ctx: Ctx) {
+    const { pathname } = new URL(ctx.request.url, `http://${ctx.request.headers.host}`)
     return { pathname }
   }
 
-  dispatch(ctx) {
+  dispatch(ctx: Ctx) {
     return this.handleAPIRequest(ctx)
   }
 
-  async handleAPIRequest(ctx) {
-    const { pathname } = this.parseRequest(ctx.request)
+  async handleAPIRequest(ctx: Ctx) {
+    const { pathname } = this.parseRequest(ctx)
     if (!Router.requestMapping.has(pathname)) {
       ctx.response.setHeader('content-type', 'application/json')
       ctx.response.statusCode = 404
@@ -47,16 +54,14 @@ class Router {
     return Reflect.construct(Controller, [])[methodName](ctx)
   }
 
-  async handleStaticRequest (ctx) {
+  async handleStaticRequest (ctx: Ctx) {
     const fs = require('fs/promises')
     const path = require('path')
 
-    const { pathname } = this.parseRequest(ctx.request)
+    const { pathname } = this.parseRequest(ctx)
     const data = await fs.readFile(path.join(__dirname, '../../static', pathname))
 
-    ctx.response.setHeader('content-type', mimes.get(path.extname(pathname)))
+    ctx.response.setHeader('content-type', Router.mimesMap.get(path.extname(pathname)))
     ctx.response.end(data)
   }
 }
-
-module.exports = Router
