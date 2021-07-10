@@ -1,6 +1,7 @@
-import { Controller, RequestMapping } from '../decorators/Router'
+import { Controller, RequestMapping, Singleton } from '../decorators'
 import { Ctx } from '../interface'
 
+@Singleton
 @Controller('user')
 export default class UserController {
   

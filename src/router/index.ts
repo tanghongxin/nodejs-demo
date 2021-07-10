@@ -1,11 +1,7 @@
 import { Ctx } from '../interface'
-import { Singleton } from '../decorators/Singleton'
 
-@Singleton
 export default class Router {
-  instance?: Router
-  
-  static mimesMap = new Map([
+  private static mimesMap = new Map([
     ['.png', 'image/png'],
     ['.jpg', 'image/jpg'],
     ['.gif', 'image/gif'],
@@ -13,33 +9,31 @@ export default class Router {
     ['.html', 'html'],
   ])
   
-  static requestMapping = new Map<string, [Function, string]>([])
+  private static requestMapping = new Map<string, [Function, string]>()
   
-  static registerRoute(
+  public static registerRoute(
     route: string,
     [Controller, methodName]: [Function, string]
   ) {
-    Router.requestMapping.set(
+    this.requestMapping.set(
       route,
       [Controller, methodName]
     )
   }
 
-  constructor() {}
-
-  parseRequest(ctx: Ctx) {
+  private static parseRequest(ctx: Ctx) {
     // @ts-ignore
     const { pathname } = new URL(ctx.request.url, `http://${ctx.request.headers.host}`)
     return { pathname }
   }
 
-  dispatch(ctx: Ctx) {
+  public static dispatch(ctx: Ctx) {
     return this.handleAPIRequest(ctx)
   }
 
-  async handleAPIRequest(ctx: Ctx) {
+  private static async handleAPIRequest(ctx: Ctx) {
     const { pathname } = this.parseRequest(ctx)
-    if (!Router.requestMapping.has(pathname)) {
+    if (!this.requestMapping.has(pathname)) {
       ctx.response.setHeader('content-type', 'application/json')
       ctx.response.statusCode = 404
       ctx.response.end(JSON.stringify({
@@ -48,11 +42,11 @@ export default class Router {
       return 
     }
     
-    const [Controller, methodName] = Router.requestMapping.get(pathname) as [Function, string]
+    const [Controller, methodName] = this.requestMapping.get(pathname) as [Function, string]
     return Reflect.construct(Controller, [])[methodName](ctx)
   }
 
-  async handleStaticRequest (ctx: Ctx) {
+  private static async handleStaticRequest (ctx: Ctx) {
     const fs = require('fs/promises')
     const path = require('path')
 
@@ -60,7 +54,7 @@ export default class Router {
     const data = await fs.readFile(path.join(__dirname, '../../static', pathname))
 
     // @ts-ignore
-    ctx.response.setHeader('content-type', Router.mimesMap.get(path.extname(pathname)))
+    ctx.response.setHeader('content-type', this.mimesMap.get(path.extname(pathname)))
     ctx.response.end(data)
   }
 }
