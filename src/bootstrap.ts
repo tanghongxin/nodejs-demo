@@ -1,2 +1,4 @@
 import './controller'
-export { default as Router } from './router'
+import Router from './router'
+
+export default new Router

@@ -1,8 +1,8 @@
 import http from 'http'
-import { Router } from './bootstrap'
+import router from './bootstrap'
 
 const server = http.createServer((request, response) => {
-  new Router().dispatch({ request, response })
+  router.dispatch({ request, response })
 })
 
 server.listen(8000, () => {

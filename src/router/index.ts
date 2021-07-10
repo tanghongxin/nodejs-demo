@@ -1,5 +1,7 @@
 import { Ctx } from '../interface'
+import { Singleton } from '../decorators/Singleton'
 
+@Singleton
 export default class Router {
   instance?: Router
   
@@ -11,11 +13,11 @@ export default class Router {
     ['.html', 'html'],
   ])
   
-  static requestMapping = new Map<string, [any, string]>([])
+  static requestMapping = new Map<string, [Function, string]>([])
   
   static registerRoute(
     route: string,
-    [Controller, methodName]: [any, string]
+    [Controller, methodName]: [Function, string]
   ) {
     Router.requestMapping.set(
       route,
@@ -23,14 +25,10 @@ export default class Router {
     )
   }
 
-  constructor () {
-    if (!Router.prototype.instance) {
-      Router.prototype.instance = this
-    }
-    return Router.prototype.instance
-  }
+  constructor() {}
 
-  parseRequest (ctx: Ctx) {
+  parseRequest(ctx: Ctx) {
+    // @ts-ignore
     const { pathname } = new URL(ctx.request.url, `http://${ctx.request.headers.host}`)
     return { pathname }
   }
@@ -50,7 +48,7 @@ export default class Router {
       return 
     }
     
-    const [Controller, methodName] = Router.requestMapping.get(pathname)
+    const [Controller, methodName] = Router.requestMapping.get(pathname) as [Function, string]
     return Reflect.construct(Controller, [])[methodName](ctx)
   }
 
@@ -61,6 +59,7 @@ export default class Router {
     const { pathname } = this.parseRequest(ctx)
     const data = await fs.readFile(path.join(__dirname, '../../static', pathname))
 
+    // @ts-ignore
     ctx.response.setHeader('content-type', Router.mimesMap.get(path.extname(pathname)))
     ctx.response.end(data)
   }
