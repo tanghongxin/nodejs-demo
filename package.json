@@ -1,13 +1,19 @@
 {
-  "name": "nodejs-demo",
-  "version": "1.0.0",
-  "description": "",
+  "name": "ts-decorator-demo",
+  "version": "0.0.1",
+  "description": "A simple MVC server based on nodejs and decorator written in pure typescript.",
+  "keywords": [
+    "decorator",
+    "typescript",
+    "ts",
+    "MVC"
+  ],
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc-watch --onCompilationComplete \"node ./dist/index.js\""
   },
-  "author": "",
-  "license": "ISC",
+  "author": "tanghongxin",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.3.1",
     "tsc-watch": "^4.4.0",

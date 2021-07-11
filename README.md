@@ -1,20 +1,49 @@
-The APP is a MVC framework demo made by nodejs.
+# 🎉 ts-decorator-demo
 
-# Structure
+A simple MVC server based on nodejs and decorator written in pure typescript.
 
-- config/
+Make it a little bit more convenient to build a tiny backend.
 
-The config of the APP. Configure your database and routes here.
 
-- core/
 
-The core modules of the APP. Do not do any changes.
 
-- public/
+It's recommended be considered as a practice for Design Pattern and MVC-LIKE framework.
 
-The static resources file. Put your assets here.
+## 📝 Usage
+```bash
+git clone https://github.com/tanghongxin/ts-decorator-demo.git
+cd ts-decorator-demo
+npm i
+npm run dev
+```
 
-- src/
+```bash
+# login
+curl --location --request POST 'http://127.0.0.1:8000/auth/token'
 
-The controller and service directory. Put your code here.
+# logout
+curl --location --request DELETE 'http://127.0.0.1:8000/auth/token'
 
+# index.html
+curl --location --request GET 'http://127.0.0.1:8000/index.html'
+
+# 404
+curl --location --request GET 'http://127.0.0.1:8000/xxx'
+```
+
+## ✨ Features
+- Controller
+- Get
+- Post
+- Put
+- Delete
+- Enhanced Request and Response for nodejs http
+- Static server
+- Simple Router
+
+
+## 🚧 TODO
+- Service
+- Autowired
+- Params
+- Middleware
