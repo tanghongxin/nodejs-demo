@@ -2,7 +2,7 @@ import { Ctx } from '../utils'
 import fs from 'fs'
 import path from 'path'
 
-class Router {
+export class Router {
   private static routeMap = new Map<string, Map<string, [Function, string]>>()
   
   public static registerRoute(
@@ -56,5 +56,3 @@ class Router {
     })
   }
 }
-
-export default Router

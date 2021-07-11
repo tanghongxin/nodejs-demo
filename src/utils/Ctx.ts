@@ -1,8 +1,8 @@
 import http from 'http'
-import Request from './Request'
-import Response from './Response'
+import { Request } from './Request'
+import { Response } from './Response'
 
-class Ctx {
+export class Ctx {
   public request: Request
   public response: Response
   
@@ -16,5 +16,3 @@ class Ctx {
     this.response = response as Response
   }
 }
-
-export default Ctx

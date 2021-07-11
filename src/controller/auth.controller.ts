@@ -3,7 +3,7 @@ import { Ctx } from '../utils'
 
 @Singleton
 @Controller('auth')
-export default class AuthController {
+export class AuthController {
   
   @Post('token')
   public login(ctx: Ctx) {

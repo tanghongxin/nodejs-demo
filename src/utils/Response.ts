@@ -1,6 +1,6 @@
 import http from 'http'
 
-class Response extends http.ServerResponse {
+export class Response extends http.ServerResponse {
   private static map: Record<string, string> = {
     '.wasm': 'application/wasm',
     '.js': 'text/javascript',
@@ -38,5 +38,3 @@ class Response extends http.ServerResponse {
     this.end()
   }
 }
-
-export default Response

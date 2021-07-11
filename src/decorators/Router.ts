@@ -1,13 +1,13 @@
-import Router from '../router'
+import { Router } from '../router'
 
 export function Controller(controllerRoute: string) {
   return function (cls: any) {
-    for (const [method, methodRoute, methodName] of cls.prototype.routes) {
+    for (const [method, requestRoute, fnName] of cls.prototype.routes) {
       Router.registerRoute(
-        `/${controllerRoute}/${methodRoute}`,
+        `/${controllerRoute}/${requestRoute}`,
         method,
         cls,
-        methodName,
+        fnName,
       )
     }
   
@@ -16,12 +16,12 @@ export function Controller(controllerRoute: string) {
 }
 
 function RequestMapping(method: string) {
-  return function (methodRoute: string) {
-    return function (cls: any, name: string, descriptor: PropertyDescriptor) {
+  return function (requestRoute: string) {
+    return function (cls: any, fnName: string, descriptor: PropertyDescriptor) {
       // @ts-ignore
       cls.routes = cls.routes || []
       // @ts-ignore
-      cls.routes.push([method, methodRoute, name])
+      cls.routes.push([method, requestRoute, fnName])
     }
   }
 }

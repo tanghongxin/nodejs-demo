@@ -1,7 +1,7 @@
 import http from 'http'
 import { URL } from 'url'
 
-class Request extends http.IncomingMessage {
+export class Request extends http.IncomingMessage {
   public parse() {
     const {
       hash, host, hostname, href, password, pathname,
@@ -19,5 +19,3 @@ class Request extends http.IncomingMessage {
     return method.toLowerCase()
   }
 }
-
-export default Request
