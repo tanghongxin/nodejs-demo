@@ -7,7 +7,7 @@ Make it a little bit more convenient to build a tiny backend.
 
 
 
-It's recommended be considered as a practice for Design Pattern and MVC-LIKE framework.
+It's recommended to be considered as a practice for Design Pattern and MVC-LIKE framework.
 
 ## 📝 Usage
 ```bash
